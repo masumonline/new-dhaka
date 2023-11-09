@@ -9,33 +9,53 @@ import Layout from "../layouts/Layout.astro";
         <div class="lg:col-span-2 lg:py-12">
           <h1 class="text-2xl font-bold text-amber-600">Dhaka Distributions</h1>
           <p class="max-w-xl text-lg">
-            AL Complex. 4th Floor(North). H/78/7 International Airport Road. Chairman Bari, Bannani, Dhaka-1213, Bangladesh
+            AL Complex. 4th Floor(North). H/78/7 International Airport Road.
+            Chairman Bari, Bannani, Dhaka-1213, Bangladesh
           </p>
 
           <div class="mt-8">
-            <p>Tech Support</p>
+            <p class="text-xl">Tech Support</p>
             <a href="" class="text-2xl font-bold text-amber-600">
               +8801777954422
             </a>
 
             <address class="mt-2 not-italic">
-              support@dhakadistributions.com
+              <a href="mailto:support@dhakadistributions.com"
+                >support@dhakadistributions.com</a
+              >
             </address>
           </div>
           <div class="mt-8">
-            <p>Sales</p>
+            <p class="text-xl">Sales</p>
             <a href="" class="text-2xl font-bold text-amber-600">
-              +8801733349598, <br>+8801752363543, <br>+8801730001170 
+              +8801733349598, <br />+8801752363543, <br />+8801730001170
             </a>
 
             <address class="mt-2 not-italic">
-              sales@dhakadistributions.com
+              <a href="mailto:sales@dhakadistributions.com"
+                >sales@dhakadistributions.com</a
+              >
+            </address>
+          </div>
+          <div class="mt-8">
+            <p class="text-xl">General</p>
+            <a class="text-2xl font-bold text-amber-600"> +8809614601234</a>
+
+            <address class="mt-2 not-italic">
+              <a href="mailto:info@dhakadistributions.com"
+                >info@dhakadistributions.com</a
+              >
             </address>
           </div>
         </div>
 
         <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-          <form action="" class="space-y-4">
+          <form
+            id="my-form"
+            action="https://formspree.io/f/mjvqzdzd"
+            method="POST"
+            class="space-y-4"
+          >
             <div>
               <label class="sr-only" for="name">Name</label>
               <input
@@ -43,6 +63,7 @@ import Layout from "../layouts/Layout.astro";
                 placeholder="Name"
                 type="text"
                 id="name"
+                name="name"
               />
             </div>
 
@@ -54,6 +75,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Email address"
                   type="email"
                   id="email"
+                  name="email"
                 />
               </div>
 
@@ -64,6 +86,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Phone Number"
                   type="tel"
                   id="phone"
+                  name="phone"
                 />
               </div>
             </div>
@@ -76,6 +99,7 @@ import Layout from "../layouts/Layout.astro";
                   type="radio"
                   tabindex="-1"
                   name="option"
+                  value="Support"
                 />
 
                 <label
@@ -94,6 +118,7 @@ import Layout from "../layouts/Layout.astro";
                   type="radio"
                   tabindex="-1"
                   name="option"
+                  value="Sales"
                 />
 
                 <label
@@ -112,6 +137,7 @@ import Layout from "../layouts/Layout.astro";
                   type="radio"
                   tabindex="-1"
                   name="option"
+                  value="Partnership"
                 />
 
                 <label
@@ -119,7 +145,7 @@ import Layout from "../layouts/Layout.astro";
                   class="block w-full rounded-lg border border-gray-400 p-3 text-gray-600 hover:border-black peer-checked:border-black peer-checked:bg-black peer-checked:text-white"
                   tabindex="0"
                 >
-                  <span class="text-sm"> Partner</span>
+                  <span class="text-sm"> Partnership</span>
                 </label>
               </div>
             </div>
@@ -131,7 +157,8 @@ import Layout from "../layouts/Layout.astro";
                 class="w-full rounded-lg border border-gray-400 p-3 text-sm"
                 placeholder="Message"
                 rows="8"
-                id="message"></textarea>
+                id="message"
+                name="message"></textarea>
             </div>
 
             <div class="mt-4">
@@ -148,3 +175,40 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </section>
 </Layout>
+<script>
+  var form = document.getElementById("my-form");
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    var status = document.getElementById("my-form");
+    var data = new FormData(event.target);
+    fetch(event.target.action, {
+      method: form.method,
+      body: data,
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          status.innerHTML = "Thanks for your submission!";
+          form.reset();
+        } else {
+          response.json().then((data) => {
+            if (Object.hasOwn(data, "errors")) {
+              status.innerHTML = data["errors"]
+                .map((error) => error["message"])
+                .join(", ");
+            } else {
+              status.innerHTML =
+                "Oops! There was a problem submitting your form";
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        status.innerHTML = "Oops! There was a problem submitting your form";
+      });
+  }
+  form.addEventListener("submit", handleSubmit);
+</script>
