@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <Layout title="Dhaka Distributions - Contact Us">
   <section class="bg-gray-100">
     <div class="mx-auto container px-4 py-16 sm:px-6 lg:px-8">
@@ -98,7 +99,7 @@ import Layout from "../layouts/Layout.astro";
                   id="option1"
                   type="radio"
                   tabindex="-1"
-                  name="option"
+                  name="topic"
                   value="Support"
                 />
 
@@ -117,7 +118,7 @@ import Layout from "../layouts/Layout.astro";
                   id="option2"
                   type="radio"
                   tabindex="-1"
-                  name="option"
+                  name="topic"
                   value="Sales"
                 />
 
@@ -136,7 +137,7 @@ import Layout from "../layouts/Layout.astro";
                   id="option3"
                   type="radio"
                   tabindex="-1"
-                  name="option"
+                  name="topic"
                   value="Partnership"
                 />
 
@@ -160,6 +161,12 @@ import Layout from "../layouts/Layout.astro";
                 id="message"
                 name="message"></textarea>
             </div>
+            <div
+              class="g-recaptcha"
+              data-sitekey="6Lcg_QopAAAAAP2ky46y5gyuAnfYasgrbjOSjv9Z"
+            >
+            </div>
+            <!-- replace with your recaptcha SITE key not secret key -->
 
             <div class="mt-4">
               <button

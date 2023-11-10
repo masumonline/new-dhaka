@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <Layout title="Dhaka Distributions - Contact Us">
   <section class="bg-gray-100">
     <div class="mx-auto container px-4 py-16 sm:px-6 lg:px-8">
@@ -96,7 +97,12 @@ import Layout from "../layouts/Layout.astro";
           </div>
         </div>
         <div class="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-          <form action="" class="space-y-4">
+          <form
+            id="my-form"
+            action="https://formspree.io/f/moqobgrr"
+            method="POST"
+            class="space-y-4"
+          >
             <div>
               <label class="sr-only" for="company">Company Name</label>
               <input
@@ -104,6 +110,7 @@ import Layout from "../layouts/Layout.astro";
                 placeholder="Company Name"
                 type="text"
                 id="company"
+                name="company"
               />
             </div>
             <div>
@@ -112,7 +119,8 @@ import Layout from "../layouts/Layout.astro";
                 class="w-full rounded-lg border border-gray-400 p-3 text-sm"
                 placeholder="Address"
                 rows="4"
-                id="address"></textarea>
+                id="address"
+                name="address"></textarea>
             </div>
 
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -123,6 +131,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Phone Number"
                   type="text"
                   id="phone"
+                  name="phone"
                 />
               </div>
               <div>
@@ -132,6 +141,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="City"
                   type="text"
                   id="city"
+                  name="city"
                 />
               </div>
             </div>
@@ -142,6 +152,7 @@ import Layout from "../layouts/Layout.astro";
                 placeholder="Website"
                 type="text"
                 id="website"
+                name="website"
               />
             </div>
             <div>
@@ -151,6 +162,7 @@ import Layout from "../layouts/Layout.astro";
                 placeholder="Owner/Founder"
                 type="text"
                 id="owner"
+                name="owner"
               />
             </div>
 
@@ -162,6 +174,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Trade License No"
                   type="text"
                   id="trade"
+                  name="tradelicense"
                 />
               </div>
               <div>
@@ -171,6 +184,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="VAT Registration No"
                   type="text"
                   id="vat"
+                  name="vat"
                 />
               </div>
             </div>
@@ -182,6 +196,7 @@ import Layout from "../layouts/Layout.astro";
                 placeholder="Contact for Sales"
                 type="text"
                 id="sales"
+                name="contactsales"
               />
             </div>
 
@@ -193,6 +208,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Phone"
                   type="text"
                   id="sales_phone"
+                  name="sales_phone"
                 />
               </div>
               <div>
@@ -202,6 +218,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Email"
                   type="text"
                   id="sales_email"
+                  name="sales_email"
                 />
               </div>
             </div>
@@ -212,6 +229,7 @@ import Layout from "../layouts/Layout.astro";
                 placeholder="Contact for Tech Support"
                 type="text"
                 id="tech"
+                name="contacttechsupport"
               />
             </div>
 
@@ -223,6 +241,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Phone"
                   type="text"
                   id="tech_phone"
+                  name="tech_phone"
                 />
               </div>
               <div>
@@ -232,6 +251,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Email"
                   type="text"
                   id="tech_email"
+                  name="tech_email"
                 />
               </div>
             </div>
@@ -242,6 +262,7 @@ import Layout from "../layouts/Layout.astro";
                 placeholder="Contact for Accounts"
                 type="text"
                 id="account"
+                name="contactaccount"
               />
             </div>
 
@@ -253,6 +274,7 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Phone"
                   type="text"
                   id="account_phone"
+                  name="account_phone"
                 />
               </div>
               <div>
@@ -262,10 +284,15 @@ import Layout from "../layouts/Layout.astro";
                   placeholder="Email"
                   type="text"
                   id="account_email"
+                  name="account_email"
                 />
               </div>
             </div>
-
+            <div
+              class="g-recaptcha"
+              data-sitekey="6Lcg_QopAAAAAP2ky46y5gyuAnfYasgrbjOSjv9Z"
+            >
+            </div>
             <div class="mt-4">
               <button
                 type="submit"
@@ -280,3 +307,40 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </section>
 </Layout>
+<script>
+  var form = document.getElementById("my-form");
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    var status = document.getElementById("my-form");
+    var data = new FormData(event.target);
+    fetch(event.target.action, {
+      method: form.method,
+      body: data,
+      headers: {
+        Accept: "application/json",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          status.innerHTML = "Thanks for your submission!";
+          form.reset();
+        } else {
+          response.json().then((data) => {
+            if (Object.hasOwn(data, "errors")) {
+              status.innerHTML = data["errors"]
+                .map((error) => error["message"])
+                .join(", ");
+            } else {
+              status.innerHTML =
+                "Oops! There was a problem submitting your form";
+            }
+          });
+        }
+      })
+      .catch((error) => {
+        status.innerHTML = "Oops! There was a problem submitting your form";
+      });
+  }
+  form.addEventListener("submit", handleSubmit);
+</script>
